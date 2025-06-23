@@ -9,4 +9,5 @@ name = "minimal_diffsl"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = "0.24.0"
+pyo3 = "0.25.1"
+numpy = "0.25.0"
