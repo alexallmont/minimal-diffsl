@@ -171,8 +171,16 @@ jobs:
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: 'wheels-*/*'
+      - name: Publish to Test PyPI
+        if: ${{ startsWith(github.ref, 'refs/tags/') && !contains(github.ref, '-rc') }}
+        uses: PyO3/maturin-action@v1
+        env:
+          MATURIN_PYPI_TOKEN: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        with:
+          command: upload
+          args: --non-interactive --skip-existing --repository testpypi wheels-*/*
       - name: Publish to PyPI
-        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        if: ${{ startsWith(github.ref, 'refs/tags/') && contains(github.ref, '-rc') }}
         uses: PyO3/maturin-action@v1
         env:
           MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
