@@ -176,12 +176,12 @@ jobs:
           MATURIN_PYPI_TOKEN: ${{ secrets.TEST_PYPI_API_TOKEN }}
         with:
           command: upload
-          args: --non-interactive --skip-existing --repository-url https://test.pypi.org/legacy -vvv wheels-*/*
-      - name: Publish to PyPI
-        if: ${{ startsWith(github.ref, 'refs/tags/') && !contains(github.ref, '-rc') }}
-        uses: PyO3/maturin-action@v1
-        env:
-          MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
-        with:
-          command: upload
-          args: --non-interactive --skip-existing wheels-*/*
+          args: --non-interactive --skip-existing --repository-url=https://test.pypi.org/legacy -vvv wheels-*/*
+      #- name: Publish to PyPI
+      #  if: ${{ startsWith(github.ref, 'refs/tags/') && !contains(github.ref, '-rc') }}
+      #  uses: PyO3/maturin-action@v1
+      #  env:
+      #    MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+      #  with:
+      #    command: upload
+      #    args: --non-interactive --skip-existing wheels-*/*
