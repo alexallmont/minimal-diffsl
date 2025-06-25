@@ -646,7 +646,7 @@ dependencies = [
 
 [[package]]
 name = "minimal-diffsl"
-version = "0.1.0-rc4"
+version = "0.1.0"
 dependencies = [
  "diffsol",
  "numpy",
