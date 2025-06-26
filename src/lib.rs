@@ -1,3 +1,4 @@
+use numpy::ndarray::{Array1, Array2};
 use numpy::{PyArray1, PyArray2};
 use pyo3::exceptions::PyTypeError;
 use pyo3::prelude::*;
@@ -45,10 +46,18 @@ pub fn problem_implicit() -> OdeSolverProblem<impl OdeEquationsImplicit<M = M, V
 }
 
 #[pyfunction]
-pub fn solver_test<'py>(py: Python<'py>) {
+fn make_numpy_array_from_raw<'py>(py: Python<'py>) -> Bound<'py, PyArray1<f64>> {
+    let vec = vec![1.0, 2.0, 3.0];
+    let arr: Array1<f64> = Array1::from(vec);
+    PyArray1::from_owned_array(py, arr)
+}
+
+#[pyfunction]
+pub fn solver_test<'py>(py: Python<'py>) -> Bound<'py, PyArray1<f64>> {
     let problem = problem_implicit();
     let mut solver = problem.bdf::<LS>().unwrap();
-    let (mut ys, mut ts): (M, Vec<T>) = solver.solve(10.0).unwrap();
+    let (_ys, ts): (M, Vec<T>) = solver.solve(10.0).unwrap();
+    PyArray1::from_owned_array(py, ts.into())
 }
 
 #[pymodule]
@@ -56,6 +65,8 @@ fn minimal_diffsl(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(sum_as_string, m)?)?;
     m.add_function(wrap_pyfunction!(array_test, m)?)?;
     m.add_function(wrap_pyfunction!(solver_test, m)?)?;
+    m.add_function(wrap_pyfunction!(make_numpy_array_from_raw, m)?)?;
+
     Ok(())
 }
 

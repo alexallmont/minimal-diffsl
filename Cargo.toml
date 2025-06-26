@@ -1,6 +1,6 @@
 [package]
 name = "minimal-diffsl"
-version = "0.1.0"
+version = "0.1.1-rc1"
 edition = "2021"
 
 [lib]
@@ -8,9 +8,9 @@ name = "minimal_diffsl"
 crate-type = ["cdylib"]
 
 [dependencies]
-diffsol = "0.6.1"
-pyo3 = "0.25.1"
-numpy = "0.25.0"
+diffsol = "0.6.2"
+pyo3 = { version = "0.25.1", features = ["extension-module", "abi3-py39"] }
+numpy = { version = "0.25.0", features = ["nalgebra"] }
 
 [dev-dependencies]
-pyo3 = { version = "*", default-features = false, features = ["auto-initialize"] }
+pyo3 = { version = "*", features = ["auto-initialize"] }
